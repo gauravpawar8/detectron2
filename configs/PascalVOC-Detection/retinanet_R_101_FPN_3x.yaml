@@ -1,0 +1,8 @@
+_BASE_: "../Base-RetinaNet-VOC.yaml"
+MODEL:
+  WEIGHTS: "/home/ubuntu/gfav/repos/detectron2/pretrained_models/RetinaNet/model_final_59f53c.pkl"
+  RESNETS:
+    DEPTH: 101
+SOLVER:
+  STEPS: (12000, 16000)
+  MAX_ITER: 18000
