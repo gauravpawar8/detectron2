@@ -13,7 +13,7 @@ MODEL:
     IOU_LABELS: [0, -1, 1]
     NUM_CLASSES: 1
 DATASETS:
-  TRAIN: ("voc_2007_trainval", 'voc_2012_trainval')
+  TRAIN: ("voc_2007_trainval",)
   TEST: ("voc_2007_test",)
 SOLVER:
   IMS_PER_BATCH: 16
