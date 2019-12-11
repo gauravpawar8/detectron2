@@ -85,6 +85,8 @@ class PascalVOCDetectionEvaluator(DatasetEvaluator):
             res_file_template = os.path.join(dirname, "{}.txt")
 
             aps = defaultdict(list)  # iou -> ap per class
+            recalls = defaultdict(list)
+            precisions = defaultdict(list)
             for cls_id, cls_name in enumerate(self._class_names):
                 lines = predictions.get(cls_id, [""])
 
@@ -101,10 +103,14 @@ class PascalVOCDetectionEvaluator(DatasetEvaluator):
                         use_07_metric=self._is_2007,
                     )
                     aps[thresh].append(ap * 100)
+                    recalls[thresh].append(rec * 100)
+                    precisions[thresh].append(prec * 100)
 
         ret = OrderedDict()
         mAP = {iou: np.mean(x) for iou, x in aps.items()}
-        ret["bbox"] = {"AP": np.mean(list(mAP.values())), "AP50": mAP[50], "AP75": mAP[75]}
+        mREC = {iou: np.mean(x) for iou, x in recalls.items()}
+        mPREC = {iou: np.mean(x) for iou, x in precisions.items()}
+        ret["bbox"] = {"AP": np.mean(list(mAP.values())), "AP50": mAP[50], "AP75": mAP[75], "REC": np.mean(list(mREC.values())), "PREC": np.mean(list(mPREC.values())), "REC50": mREC[50], "PREC50": mPREC[50]}
         return ret
 
 
